@@ -1,8 +1,8 @@
 vagrant-workshop
 ================
 
-Dependencies for Windows
-------------------------
+Windows Install  
+---------------
 * Download Babun from the website at: http://babun.github.io/
 * Unzip the file and run the install.bat
 * `babun shell /bin/bash`
@@ -19,6 +19,7 @@ Dependencies for Windows
 * `cd ansible-playbook-shim`
 * `ln -s $PWD/ansible-playbook-shim.sh /usr/local/bin/ansible-playbook-shim.sh`
 * `cp ansible-playbook.bat /c/Users/<user>/.babun`
+* `chmod +x /c/Users/<user>/.babun/ansible-playbook.bat`
 
 Quick start
 -----------
