@@ -18,7 +18,7 @@ Dependencies for Windows
 * `git clone https://github.com/rivaros/ansible-playbook-shim.git`
 * `cd ansible-playbook-shim`
 * `ln -s $PWD/ansible-playbook-shim.sh /usr/local/bin/ansible-playbook-shim.sh`
-* `cp ansible-playbook.bat /home/<user>/.local/bin`
+* `cp ansible-playbook.bat /c/Users/<user>/.babun`
 
 Quick start
 -----------
