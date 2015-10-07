@@ -1,0 +1,11 @@
+---
+- name: Install common software
+  action: >
+    yum name="{{item}}" state="installed"
+  with_items: [curl, screen, git, tree, vim, wget, unzip ]
+
+- name: Install libselinux-python on RedHat systems
+  yum:
+    name: libselinux-python
+    state: installed
+  when: ansible_os_family == "RedHat"

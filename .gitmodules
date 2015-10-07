@@ -1,0 +1,3 @@
+[submodule "ansible/roles/jdk"]
+	path = ansible/roles/jdk
+	url = https://github.com/mbrannigan/ansible-jdk.git

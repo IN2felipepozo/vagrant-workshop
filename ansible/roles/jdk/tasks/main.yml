@@ -1,0 +1,33 @@
+---
+- name: Create tarball directory
+  file:
+    path: "{{ tarball_dir }}"
+    state: directory
+
+- name: Download JVMs
+  shell: 'cd {{ tarball_dir }} && wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" -O "{{ item.filename }}" "{{ item.url }}{{ item.filename }}"'
+  args:
+    creates: "{{ tarball_dir }}/{{ item.filename }}"
+  with_items:
+    jdks
+
+- name: Untar JVMs
+  unarchive:
+    copy: no
+    creates: "/usr/local/{{ item.dirname }}"
+    dest: "/usr/local"
+    src:  "{{ tarball_dir }}/{{ item.filename }}"
+  with_items:
+    jdks
+
+- name: create default java symlink
+  file:
+    src: "/usr/local/{{ default_jdk }}"
+    dest: "/usr/local/jdk"
+    state: link
+
+- name: Create java profile
+  template:
+    src: "java.j2"
+    dest: "/etc/profile.d/java.sh"
+    mode: 775

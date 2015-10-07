@@ -1,0 +1,24 @@
+---
+tomcat_version: "7.0.64"
+tomcat_mirror: "http://apache.rediris.es/tomcat/tomcat-7/v7.0.64/bin/apache-tomcat-7.0.64.zip"
+tomcat_filename: "apache-tomcat-{{ tomcat_version }}"
+java_opts: "-Xmx512m -XX:MaxPermSize=128m"
+tomcat_user: "tomcat"
+catalina_home: "/usr/local/tomcat"
+tomcat_users:
+  -
+    name: "tomcat"
+    password: "tomcat"
+    roles: "tomcat"
+  -
+    name: "both"
+    password: "tomcat"
+    roles: "tomcat,role1"
+  -
+    name: "role1"
+    password: "tomcat"
+    roles: "role1"
+  -
+    name: "admin"
+    password: "admin"
+    roles: "tomcat,manager-gui"

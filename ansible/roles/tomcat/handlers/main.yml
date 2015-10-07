@@ -1,0 +1,4 @@
+---
+  - name: Restart tomcat
+    action: service name=tomcat state=restarted
+

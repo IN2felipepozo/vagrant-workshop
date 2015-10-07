@@ -1,0 +1,68 @@
+---
+- name: Create tarball directory
+  file:
+    path: "/usr/local/src/tomcat"
+    state: directory
+
+- name: Download tarball
+  shell: "cd /usr/local/src/tomcat && wget --quiet --no-check-certificate --no-cookies {{ tomcat_mirror }}"
+  args:
+    creates: '/usr/local/src/tomcat/{{ tomcat_filename }}.zip'
+
+- name: Untar tarball
+  unarchive:
+    copy: no
+    creates: "/usr/local/{{ tomcat_filename }}"
+    dest: "/usr/local"
+    src: "/usr/local/src/tomcat/{{ tomcat_filename }}.zip"
+
+- name: create tomcat symlink
+  file:
+    src: "/usr/local/{{ tomcat_filename }}"
+    dest: "{{ catalina_home }}"
+    state: link
+
+- name: Add JDK into catalina.sh
+  lineinfile:
+    dest: "{{ catalina_home }}/bin/catalina.sh"
+    insertafter: "#!/bin/sh"
+    line: "JAVA_HOME=/usr/local/jdk"
+
+- name: Add tomcat user
+  user:
+    name: "{{ tomcat_user }}"
+    createhome: no
+
+- name: Change directory permissions
+  file:
+    path: "{{ catalina_home }}/{{ item }}"
+    state: touch
+    owner: "{{ tomcat_user }}"
+    group: "{{ tomcat_user }}"
+  with_items: [ 'logs', 'temp', 'work' ]
+
+- name: Delete safeToDelete.tmp
+  file:
+    path: "{{ catalina_home }}/temp/safeToDelete.tmp"
+    state: absent
+
+- name: Create startup script
+  template:
+    src: "tomcat.j2"
+    dest: "/etc/init.d/tomcat"
+    mode: "0775"
+    owner: "root"
+    group: "root"
+  notify: Restart tomcat
+
+- name: Configure tomcat users
+  template:
+    src: "tomcat-users.xml.j2"
+    dest: "{{ catalina_home }}/conf/tomcat-users.xml"
+  notify: Restart tomcat
+
+- name: Tomcat service
+  service:
+    name: tomcat
+    enabled: yes
+    state: started

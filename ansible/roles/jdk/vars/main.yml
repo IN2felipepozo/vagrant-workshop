@@ -1,0 +1,12 @@
+---
+tarball_dir: "/usr/local/src/tarballs"
+default_jdk: "jdk1.7.0_67"
+jdks:
+  -
+    url: "http://download.oracle.com/otn-pub/java/jdk/7u67-b01/"
+    filename: "jdk-7u67-linux-x64.tar.gz"
+    dirname: "jdk1.7.0_67"
+  -
+    url: "http://download.oracle.com/otn-pub/java/jdk/8u45-b14/"
+    filename: "jdk-8u45-linux-x64.tar.gz"
+    dirname: "jdk1.8.0_45"
